@@ -1,14 +1,16 @@
-import { http } from 'wagmi'
+import { http, createConfig, cookieStorage, createStorage } from 'wagmi'
 import { hardhat, sepolia } from 'wagmi/chains'
-import { getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { injected, metaMask } from 'wagmi/connectors'
 
-export const config = getDefaultConfig({
-  appName: 'RoastChain',
-  projectId: 'YOUR_PROJECT_ID', // Replaced in production
+export const config = createConfig({
   chains: [hardhat, sepolia],
+  connectors: [injected(), metaMask()],
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
+  ssr: true,
   transports: {
     [hardhat.id]: http('http://127.0.0.1:8545'),
     [sepolia.id]: http(),
   },
-  ssr: true, // required for Next.js App Router
 })

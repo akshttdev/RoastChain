@@ -1,5 +1,6 @@
 import LeftSidebar from "@/components/LeftSidebar";
 import { TopNav } from "@/components/TopNav";
+import { NetworkBanner } from "@/components/NetworkBanner";
 
 export default function DashboardLayout({
   children,
@@ -11,6 +12,7 @@ export default function DashboardLayout({
       <LeftSidebar />
       <div className="flex-1 ml-[280px] min-h-screen flex flex-col">
         <TopNav />
+        <NetworkBanner />
         {children}
       </div>
     </div>

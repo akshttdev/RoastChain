@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/akshat/Documents/projects/comp/roastchain/contracts/RoastChain.sol": {
-      "lastModificationDate": 1775833475303,
-      "contentHash": "f71c81ca0c64cf1067e2c90fde303edb",
+      "lastModificationDate": 1775835620598,
+      "contentHash": "cfe5a25750a9ea7c2bc7fd0009ff134e",
       "sourceName": "contracts/RoastChain.sol",
       "solcConfig": {
         "version": "0.8.24",

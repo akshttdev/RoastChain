@@ -1,4 +1,11 @@
-export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+// Deployed contract addresses per network
+export const CONTRACT_ADDRESSES: Record<number, `0x${string}`> = {
+  31337: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512", // Hardhat localhost
+  11155111: "0x49F31F15a92CC7d5B36249E77A5aA81f92Ee94F8",  // Sepolia
+};
+
+// Legacy fallback — used by hooks before chain detection
+export const CONTRACT_ADDRESS = CONTRACT_ADDRESSES[31337];
 
 export const ROAST_CHAIN_ABI = [
   {

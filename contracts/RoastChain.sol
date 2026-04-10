@@ -32,8 +32,8 @@ contract RoastChain {
     }
 
     function vote(uint256 _id) external {
-        require(_id < roasts.length, "Roast does not exist");
-        require(!hasVoted[_id][msg.sender], "Already voted on this roast");
+        require(_id < roasts.length, "Invalid roast index");
+        require(!hasVoted[_id][msg.sender], "You have already voted on this roast");
 
         hasVoted[_id][msg.sender] = true;
         roasts[_id].votes += 1;

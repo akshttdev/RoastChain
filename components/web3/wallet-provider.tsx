@@ -2,21 +2,17 @@
 
 import '@rainbow-me/rainbowkit/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
+import { WagmiProvider, cookieToInitialState } from 'wagmi';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { config } from '@/lib/web3/config';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-export function WalletProvider({ children }: { children: React.ReactNode }) {
+export function WalletProvider({ children, cookie }: { children: React.ReactNode, cookie?: string | null }) {
   const [queryClient] = useState(() => new QueryClient());
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const initialState = cookieToInitialState(config, cookie);
 
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider theme={darkTheme({
           accentColor: '#ffffff',
@@ -24,7 +20,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           borderRadius: 'none',
           fontStack: 'system',
         })}>
-          {mounted && children}
+          {children}
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -1,9 +1,10 @@
 'use client';
 import { useRoasts } from '@/lib/web3/hooks';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 export default function LeaderboardPage() {
    const { roasts, isLoading } = useRoasts();
+   const [activeTab, setActiveTab] = useState('ALL TIME');
 
    const leaderboardData = useMemo(() => {
       if (!roasts || roasts.length === 0) return [];
@@ -41,9 +42,10 @@ export default function LeaderboardPage() {
                last: data.lastBurn
             };
          })
+         .filter(item => activeTab === 'ALL TIME' || (activeTab === 'THIS WEEK' && item.votes > 10) || (activeTab === 'SEASON 1' && item.votes < 50))
          .sort((a, b) => b.votes - a.votes);
 
-   }, [roasts]);
+   }, [roasts, activeTab]);
 
    const p1 = leaderboardData[0] || { name: 'AWAITING_CHALLENGER', votes: 0 };
    const p2 = leaderboardData[1] || { name: 'AWAITING_CHALLENGER', votes: 0 };
@@ -72,15 +74,20 @@ export default function LeaderboardPage() {
             </div>
          ) : (
             <>
-               {/* Tabs 
-          
-          <div className="flex gap-4 text-[10px] uppercase font-bold tracking-[0.1EM] mb-8">
-             <button className="bg-white text-black px-6 py-2.5">ALL TIME</button>
-             <button className="border border-white/20 text-white/50 hover:text-white px-6 py-2.5 transition-colors">THIS WEEK</button>
-             <button className="border border-white/20 text-white/50 hover:text-white px-6 py-2.5 transition-colors">SEASON 1</button>
-          </div>
-            */}
-
+               {/* Tabs */}
+               <div className="flex gap-4 text-[10px] uppercase font-bold tracking-[0.1EM] mb-8">
+                  {['ALL TIME', 'THIS WEEK', 'SEASON 1'].map(tab => (
+                    <button 
+                       key={tab} 
+                       onClick={() => setActiveTab(tab)}
+                       className={activeTab === tab 
+                          ? "bg-white text-black px-6 py-2.5" 
+                          : "border border-white/20 text-white/50 hover:text-white px-6 py-2.5 transition-colors"}
+                    >
+                       {tab}
+                    </button>
+                  ))}
+               </div>
                {/* Top 3 Podium */}
                <div className="flex gap-4 items-end mb-16 h-[340px]">
                   {/* Rank 2 */}

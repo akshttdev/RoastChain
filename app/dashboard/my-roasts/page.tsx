@@ -2,17 +2,23 @@
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
 import { useMyRoasts } from '@/lib/web3/hooks';
+import { useState } from 'react';
 
 export default function MyRoasts() {
   const { address } = useAccount();
   const { roasts, isLoading } = useMyRoasts(address);
+  const [activeTab, setActiveTab] = useState('ALL');
 
   // Compute live stats
   const totalRoasts = roasts.length;
   const aggregateScore = roasts.reduce((acc, r) => acc + Number(r.votes), 0);
   const winRate = totalRoasts > 0 ? Math.min((aggregateScore / totalRoasts) * 8 + 40, 99).toFixed(1) + '%' : '0%';
 
-  const activeRoasts = [...roasts].reverse();
+  const activeRoasts = [...roasts].reverse().filter(r => {
+     if (activeTab === 'WINS') return Number(r.votes) > 1; // mock heuristic for testing
+     if (activeTab === 'DRAFTS') return Number(r.votes) === 0;
+     return true;
+  });
 
   return (
     <div className="w-full flex px-10 max-w-[1400px] mx-auto gap-12 pb-10">
@@ -57,9 +63,15 @@ export default function MyRoasts() {
         {/* Tabs */}
         <div className="flex justify-between items-center mb-6 border-b border-transparent">
           <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.15em]">
-            <span className="text-white border-b-2 border-white pb-2 delay-75">ALL</span>
-            <span className="text-white/40 pb-2 hover:text-white transition-colors cursor-pointer">WINS</span>
-            <span className="text-white/40 pb-2 hover:text-white transition-colors cursor-pointer">DRAFTS</span>
+            {['ALL', 'WINS', 'DRAFTS'].map(tab => (
+               <span 
+                 key={tab} 
+                 onClick={() => setActiveTab(tab)}
+                 className={`pb-2 transition-colors cursor-pointer ${activeTab === tab ? 'text-white border-b-2 border-white delay-75' : 'text-white/40 hover:text-white'}`}
+               >
+                 {tab}
+               </span>
+            ))}
           </div>
           <div className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/50 pb-2">
             = SORT: RECENT
