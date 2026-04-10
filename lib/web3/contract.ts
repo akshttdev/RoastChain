@@ -32,6 +32,22 @@ export const ROAST_CHAIN_ABI = [
     stateMutability: "view"
   },
   {
+    type: "function",
+    name: "getRoastsByAuthor",
+    inputs: [{ name: "_author", type: "address" }],
+    outputs: [{
+      type: "tuple[]",
+      components: [
+        { name: "id", type: "uint256" },
+        { name: "author", type: "address" },
+        { name: "content", type: "string" },
+        { name: "votes", type: "uint256" },
+        { name: "timestamp", type: "uint256" }
+      ]
+    }],
+    stateMutability: "view"
+  },
+  {
     type: "event",
     name: "RoastSubmitted",
     inputs: [

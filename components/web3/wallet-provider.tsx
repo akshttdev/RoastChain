@@ -5,11 +5,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { config } from '@/lib/web3/config';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  // Creating QueryClient here to avoid sharing between requests in SSR
   const [queryClient] = useState(() => new QueryClient());
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <WagmiProvider config={config}>
@@ -20,7 +24,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
           borderRadius: 'none',
           fontStack: 'system',
         })}>
-          {children}
+          {mounted && children}
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

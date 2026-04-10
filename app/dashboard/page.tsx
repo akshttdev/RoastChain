@@ -14,18 +14,7 @@ export default function Dashboard() {
       
       {/* Main Content (Center) */}
       <div className="flex-1 max-w-[700px] pt-4">
-        {/* Dashboard Top Nav Bar */}
-        <div className="flex justify-between items-center mb-16 uppercase text-xs font-bold tracking-[0.1em] border-b border-transparent pb-4">
-          <div className="flex gap-8">
-            <Link href="/dashboard" className="text-white border-b border-white pb-1">BATTLES</Link>
-            <Link href="#" className="text-white/60 hover:text-white pb-1 transition-colors">VOTE</Link>
-            <Link href="#" className="text-white/60 hover:text-white pb-1 transition-colors">LEADERBOARD</Link>
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <CustomConnectButton />
-          </div>
-        </div>
+
 
         {/* Dynamic Roast Components */}
         <SubmitRoast onSubmitted={() => setRefetchCounter(prev => prev + 1)} />

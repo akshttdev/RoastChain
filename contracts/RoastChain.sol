@@ -44,4 +44,23 @@ contract RoastChain {
     function getAllRoasts() external view returns (Roast[] memory) {
         return roasts;
     }
+
+    function getRoastsByAuthor(address _author) external view returns (Roast[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < roasts.length; i++) {
+            if (roasts[i].author == _author) {
+                count++;
+            }
+        }
+        
+        Roast[] memory result = new Roast[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < roasts.length; i++) {
+            if (roasts[i].author == _author) {
+                result[index] = roasts[i];
+                index++;
+            }
+        }
+        return result;
+    }
 }

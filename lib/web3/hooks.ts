@@ -65,3 +65,22 @@ export function useVote() {
     error
   };
 }
+
+export function useMyRoasts(authorAddress?: `0x${string}` | string) {
+  const { data, isError, isLoading, refetch } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi: ROAST_CHAIN_ABI,
+    functionName: 'getRoastsByAuthor',
+    args: authorAddress ? [authorAddress as `0x${string}`] : undefined,
+    query: {
+       enabled: !!authorAddress
+    }
+  });
+
+  return {
+    roasts: (data as any[]) || [],
+    isLoading,
+    isError,
+    refetch
+  };
+}
