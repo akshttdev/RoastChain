@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { WalletProvider } from "@/components/web3/wallet-provider";
-import { Toaster } from 'react-hot-toast';
+import { ToasterClient } from "@/components/ToasterClient";
 import { headers } from 'next/headers';
 import "./globals.css";
 
@@ -17,19 +17,6 @@ export const metadata: Metadata = {
   description: "A decentralized arena for brutal honesty.",
 };
 
-const toastOptions = {
-  style: {
-    borderRadius: '0',
-    background: '#fff',
-    color: '#000',
-    fontSize: '12px',
-    fontWeight: 'bold',
-    textTransform: 'uppercase' as const,
-    letterSpacing: '0.1em',
-    border: '2px solid #000',
-  },
-};
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -42,7 +29,7 @@ export default async function RootLayout({
         <WalletProvider cookie={cookie}>
           {children}
         </WalletProvider>
-        <Toaster position="bottom-right" toastOptions={toastOptions} />
+        <ToasterClient />
       </body>
     </html>
   );

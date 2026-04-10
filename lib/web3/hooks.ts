@@ -1,4 +1,4 @@
-import { useReadContract, useWriteContract, useWaitForTransactionReceipt, useChainId, useSwitchChain } from 'wagmi';
+import { useReadContract, useWriteContract, useWaitForTransactionReceipt, useChainId, useSwitchChain, useWatchContractEvent } from 'wagmi';
 import { CONTRACT_ADDRESSES, ROAST_CHAIN_ABI } from './contract';
 import { sepolia, hardhat } from 'wagmi/chains';
 
@@ -16,6 +16,27 @@ export function useRoasts() {
     address,
     abi: ROAST_CHAIN_ABI,
     functionName: 'getAllRoasts',
+    chainId: chainId as any,
+    query: {
+      refetchInterval: 5000, // poll every 5s for live updates
+    }
+  });
+
+  // Also instantly refetch when a new roast is submitted
+  useWatchContractEvent({
+    address,
+    abi: ROAST_CHAIN_ABI,
+    eventName: 'RoastSubmitted',
+    onLogs: () => { refetch(); },
+    chainId: chainId as any,
+  });
+
+  // And when votes change
+  useWatchContractEvent({
+    address,
+    abi: ROAST_CHAIN_ABI,
+    eventName: 'Voted',
+    onLogs: () => { refetch(); },
     chainId: chainId as any,
   });
 
@@ -96,7 +117,8 @@ export function useMyRoasts(authorAddress?: `0x${string}` | string) {
     chainId: chainId as any,
     args: authorAddress ? [authorAddress as `0x${string}`] : undefined,
     query: {
-       enabled: !!authorAddress
+       enabled: !!authorAddress,
+       refetchInterval: 5000,
     }
   });
 
