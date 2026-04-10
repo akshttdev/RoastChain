@@ -1,6 +1,7 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+import { WalletProvider } from "@/components/web3/wallet-provider";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} font-sans antialiased`}>
-        {children}
+        <WalletProvider>
+          {children}
+        </WalletProvider>
       </body>
     </html>
   );

@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { CustomConnectButton } from "@/components/web3/connect-button";
 
 export default function Home() {
   return (
@@ -9,14 +11,14 @@ export default function Home() {
         <div className="text-xl font-black tracking-tight">ROASTCHAIN</div>
 
         <div className="hidden md:flex gap-8 items-center font-bold">
-          <a href="#" className="text-white/60 hover:text-white border-b border-transparent hover:border-white pb-1 transition-all">BATTLES</a>
-          <a href="#" className="text-white/60 hover:text-white border-b border-transparent hover:border-white pb-1 transition-all">VOTE</a>
-          <a href="#" className="text-white/60 hover:text-white border-b border-transparent hover:border-white pb-1 transition-all">LEADERBOARD</a>
+          <Link href="/dashboard" className="text-white/60 hover:text-white border-b border-transparent hover:border-white pb-1 transition-all">BATTLES</Link>
+          <Link href="/dashboard" className="text-white/60 hover:text-white border-b border-transparent hover:border-white pb-1 transition-all">VOTE</Link>
+          <Link href="/dashboard" className="text-white/60 hover:text-white border-b border-transparent hover:border-white pb-1 transition-all">LEADERBOARD</Link>
         </div>
 
-        <button className="bg-white text-black px-6 py-3 font-bold hover:bg-white/90 transition-colors uppercase tracking-[0.1em]">
-          CONNECT_WALLET
-        </button>
+        <div className="flex items-center">
+          <CustomConnectButton />
+        </div>
       </nav>
 
       {/* Hero */}
@@ -36,13 +38,11 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
-          <button className="bg-white text-black px-12 py-5 text-sm font-bold uppercase tracking-[0.15em] hover:bg-white/90 transition-colors">
-            CONNECT WALLET
-          </button>
-
-          <button className="border border-white/20 px-12 py-5 text-sm font-bold uppercase tracking-[0.15em] hover:border-white hover:bg-white/5 transition-all">
+          <CustomConnectButton className="bg-white text-black px-12 py-5 text-sm font-bold uppercase tracking-[0.15em] hover:bg-white/90 transition-colors text-center inline-block cursor-pointer flex justify-center w-full sm:w-auto" />
+          
+          <Link href="/dashboard" className="border border-white/20 px-12 py-5 text-sm font-bold uppercase tracking-[0.15em] hover:border-white hover:bg-white/5 transition-all text-center inline-block">
             ENTER ARENA
-          </button>
+          </Link>
         </div>
       </main>
 
